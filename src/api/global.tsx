@@ -283,15 +283,18 @@ export const HTTPMethodData: Record<HTTPMethod, EnumData> = {
 export const DatasourceDriverMetricData: Record<DatasourceDriverMetric, EnumData> = {
   [DatasourceDriverMetric.DATASOURCE_DRIVER_METRIC_UNKNOWN]: {
     color: 'gray',
-    label: 'unknown'
+    label: 'unknown',
+    text: 'unknown'
   },
   [DatasourceDriverMetric.DATASOURCE_DRIVER_METRIC_PROMETHEUS]: {
     color: 'orange',
-    label: 'Prometheus'
+    label: 'Prometheus',
+    text: 'Prometheus'
   },
   [DatasourceDriverMetric.DATASOURCE_DRIVER_METRIC_VICTORIAMETRICS]: {
     color: 'cyan',
-    label: 'VictoriaMetrics'
+    label: 'VictoriaMetrics',
+    text: 'VictoriaMetrics'
   }
 }
 

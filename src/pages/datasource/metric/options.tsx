@@ -26,7 +26,7 @@ export const formItems: (DataFromItem | DataFromItem[])[] = [
         options: Object.entries(DatasourceDriverMetricData)
           .filter(([key]) => +key !== DatasourceDriverMetric.DATASOURCE_DRIVER_METRIC_UNKNOWN)
           .map(([key, value]) => ({
-            label: value,
+            label: <Badge {...value} />,
             value: +key
           }))
       },
@@ -53,14 +53,14 @@ export const formItems: (DataFromItem | DataFromItem[])[] = [
       name: 'queryMethod',
       type: 'select',
       formProps: {
-        initialValue: HTTPMethod.HTTP_METHOD_GET,
+        initialValue: HTTPMethod.HTTPMethodGET,
         rules: [{ required: true, message: '请选择请求方式' }]
       },
       props: {
         allowClear: true,
         placeholder: '请选择请求方式',
         options: Object.entries(HTTPMethodData)
-          .filter(([key]) => +key !== HTTPMethod.HTTP_METHOD_UNKNOWN)
+          .filter(([key]) => +key !== HTTPMethod.HTTPMethodUnknown)
           .map(([key, value]) => ({
             label: <Badge {...value} />,
             value: +key

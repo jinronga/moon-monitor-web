@@ -498,28 +498,28 @@ export enum EventDataType {
 /** HTTP请求方式 */
 export enum HTTPMethod {
   /** 未知 */
-  HTTPMethodUnknown = '',
+  HTTPMethodUnknown = 0,
 
   /** GET */
-  HTTPMethodGET = 'GET',
+  HTTPMethodGET = 1,
 
   /** POST */
-  HTTPMethodPOST = 'POST',
+  HTTPMethodPOST = 2,
 
   /** PUT */
-  HTTPMethodPUT = 'PUT',
+  HTTPMethodPUT = 3,
 
   /** DELETE */
-  HTTPMethodDELETE = 'DELETE',
-
-  /** PATCH */
-  HTTPMethodPATCH = 'PATCH',
+  HTTPMethodDELETE = 4,
 
   /** HEAD */
-  HTTPMethodHEAD = 'HEAD',
+  HTTPMethodHEAD = 5,
 
   /** OPTIONS */
-  HTTPMethodOPTIONS = 'OPTIONS'
+  HTTPMethodOPTIONS = 6,
+
+  /** PATCH */
+  HTTPMethodPATCH = 7
 }
 
 /** 状态码判断条件 */
@@ -603,9 +603,9 @@ export enum ConditionMetric {
  * DatasourceDriverMetric
  */
 export enum DatasourceDriverMetric {
-  DATASOURCE_DRIVER_METRIC_PROMETHEUS,
-  DATASOURCE_DRIVER_METRIC_UNKNOWN,
-  DATASOURCE_DRIVER_METRIC_VICTORIAMETRICS
+  DATASOURCE_DRIVER_METRIC_UNKNOWN = 0,
+  DATASOURCE_DRIVER_METRIC_PROMETHEUS = 1,
+  DATASOURCE_DRIVER_METRIC_VICTORIAMETRICS = 2
 }
 
 

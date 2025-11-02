@@ -3,7 +3,7 @@ import { ConditionMetric, DictType, GlobalStatus, SampleMode } from '@/api/enum'
 import { ConditionMetricData, defaultPaginationReq, SampleModeData } from '@/api/global'
 import { selectTeamDict } from '@/api/request/teamdict'
 import { listTeamNoticeGroup } from '@/api/request/teamnotice'
-import { saveTeamMetricStrategyLevel, teamMetricStrategyLevelDetail } from '@/api/request/teamstrategy'
+import { saveTeamMetricStrategyLevel, teamMetricStrategyLevelDetail } from '@/api/request/teamstrategymetric'
 import { SelectItem } from '@/api/request/types'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { useRequest } from 'ahooks'
@@ -76,11 +76,11 @@ export default function MetricLevelModal(props: MetricLevelModalProps) {
 
   useEffect(() => {
     getAlarmLevelList({
-      dictTypes: [DictType.DICT_TYPE_ALARM_LEVEL],
+      dictTypes: [DictType.DictTypeAlarmLevel],
       pagination: defaultPaginationReq
     })
     getAlarmPageList({
-      dictTypes: [DictType.DICT_TYPE_ALARM_PAGE],
+      dictTypes: [DictType.DictTypeAlarmPage],
       pagination: defaultPaginationReq
     })
     getAlarmGroupList({

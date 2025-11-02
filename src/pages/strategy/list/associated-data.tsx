@@ -2,11 +2,9 @@ import { TeamStrategyItem, TeamStrategyMetricLevelItem } from '@/api/common.type
 import { ActionKey } from '@/api/enum'
 import { DatasourceDriverMetricData, defaultPaginationReq, StrategyTypeData } from '@/api/global'
 import { baseURL } from '@/api/request'
-import {
-  deleteTeamStrategy,
-  listTeamMetricStrategyLevels
-} from '@/api/request/teamstrategy'
-import { GetTeamMetricStrategyReply } from '@/api/request/types'
+import { deleteTeamStrategy } from '@/api/request/teamstrategy'
+import { teamMetricStrategyDetail, teamMetricStrategyLevelList } from '@/api/request/teamstrategymetric'
+import { TeamStrategyMetricItem } from '@/api/request/types'
 import PromQLInput, { PromQLInputProps } from '@/components/data/child/prom-ql'
 import AutoTable from '@/components/table'
 import { getColorByString } from '@/utils/color'
@@ -24,13 +22,13 @@ export default function AssociatedData() {
   const location = useLocation()
   const { detail } = (location.state as { detail: TeamStrategyItem }) || { detail: undefined }
   const [metricStrategyModalOpen, setMetricStrategyModalOpen] = useState(false)
-  const [metricStrategy, setMetricStrategy] = useState<GetTeamMetricStrategyReply>()
+  const [metricStrategy, setMetricStrategy] = useState<TeamStrategyMetricItem>()
   const [metricLevelModalOpen, setMetricLevelModalOpen] = useState(false)
   const [strategyMetricId, setStrategyMetricId] = useState<number>()
   const [strategyMetricLevel, setStrategyMetricLevel] = useState<TeamStrategyMetricLevelItem>()
   const [metricLevels, setMetricLevels] = useState<TeamStrategyMetricLevelItem[]>([])
   const [selectedMetricLevelIds, setSelectedMetricLevelIds] = useState<number[]>([])
-  const { run: getMetricStrategy } = useRequest(getTeamMetricStrategy, {
+  const { run: getMetricStrategy } = useRequest(teamMetricStrategyDetail, {
     manual: true,
     onSuccess: (res) => {
       console.log('res', res)
@@ -38,7 +36,7 @@ export default function AssociatedData() {
       setStrategyMetricId(res.strategyMetricId)
     }
   })
-  const { run: getMetricLevels } = useRequest(listTeamMetricStrategyLevels, {
+  const { run: getMetricLevels } = useRequest(teamMetricStrategyLevelList, {
     manual: true,
     onSuccess: (res) => {
       console.log('res', res)

@@ -256,7 +256,7 @@ export const saveFormList: (DataFromItem | DataFromItem[])[] = [
       props: {
         placeholder: '请选择请求方法',
         options: Object.entries(HTTPMethodData)
-          .filter(([key]) => key !== HTTPMethod.HTTPMethodUnknown)
+          .filter(([key]) => +key !== HTTPMethod.HTTPMethodUnknown)
           .map(([key, value]) => ({ label: <Badge {...value} />, value: +key }))
       },
       formProps: {
