@@ -1,4 +1,5 @@
 import { TeamMetricDatasourceItem, TeamMetricDatasourceMetadataItem } from '@/api/common.types'
+import { MetricType } from '@/api/enum'
 import { MetricTypeData } from '@/api/global'
 import { listMetricDatasourceMetadata, syncMetricMetadata } from '@/api/request/teamdatasource'
 import {
@@ -79,11 +80,29 @@ export const Metadata: React.FC<MetadataProps> = (props) => {
       width: 100,
       fixed: 'left',
       render: (_, record) => {
-        const { text, color } = MetricTypeData[record.type]
+        if (!record.type) {
+          return (
+            <Tag style={{ width: '100%' }} className='center'>
+              -
+            </Tag>
+          )
+        }
+        // 根据文本值映射颜色
+        const typeLower = String(record.type).toLowerCase()
+        let color = 'default'
+        if (typeLower === 'counter') {
+          color = 'green'
+        } else if (typeLower === 'gauge') {
+          color = 'blue'
+        } else if (typeLower === 'histogram') {
+          color = 'purple'
+        } else if (typeLower === 'summary') {
+          color = 'orange'
+        }
         return (
           <>
             <Tag color={color} style={{ width: '100%' }} className='center'>
-              {text}
+              {record.type}
             </Tag>
           </>
         )
@@ -161,6 +180,7 @@ export const Metadata: React.FC<MetadataProps> = (props) => {
   }, [datasource])
 
   useEffect(() => {
+    if (!searchMetricParams.datasourceId) return
     getMetricList(searchMetricParams)
   }, [searchMetricParams, getMetricList])
 
@@ -188,10 +208,24 @@ export const Metadata: React.FC<MetadataProps> = (props) => {
           autoComplete='off'
           onChange={() => {
             form.validateFields().then((values) => {
+              // 将 metricType 数字转换为字符串
+              const typeMap: Record<number, string | undefined> = {
+                [MetricType.MetricTypeUnknown]: undefined,
+                [MetricType.MetricTypeCounter]: 'counter',
+                [MetricType.MetricTypeGauge]: 'gauge',
+                [MetricType.MetricTypeHistogram]: 'histogram',
+                [MetricType.MetricTypeSummary]: 'summary'
+              }
+              const typeString = values.metricType !== undefined ? typeMap[values.metricType] : undefined
+              const { metricType, keyword, ...restValues } = values
+              // keyword 前后加上 % 进行模糊检索
+              const formattedKeyword = keyword ? `%${keyword}%` : undefined
               setSearchMetricParams((prev) => {
                 return {
                   ...prev,
-                  ...values
+                  ...restValues,
+                  type: typeString,
+                  keyword: formattedKeyword
                 }
               })
             })
@@ -202,13 +236,15 @@ export const Metadata: React.FC<MetadataProps> = (props) => {
               type='radio-group'
               props={{
                 options: Object.entries(MetricTypeData).map((item) => {
+                  const typeValue = +item[0]
+                  const typeData = item[1]
                   return {
                     label: (
-                      <div className='w-full' style={{ color: item[1].color }}>
-                        {item[1].text}
+                      <div className='w-full' style={{ color: typeData.color || '#666' }}>
+                        {typeData.text}
                       </div>
                     ),
-                    value: +item[0]
+                    value: typeValue
                   }
                 }),
                 optionType: 'button'
@@ -221,10 +257,12 @@ export const Metadata: React.FC<MetadataProps> = (props) => {
               placeholder='请输入'
               allowClear
               onSearch={(value) => {
+                // keyword 前后加上 % 进行模糊检索
+                const formattedKeyword = value ? `%${value}%` : undefined
                 setSearchMetricParams((prev) => {
                   return {
                     ...prev,
-                    keyword: value
+                    keyword: formattedKeyword
                   }
                 })
               }}

@@ -27,7 +27,8 @@ export const BasicModal: React.FC<BasicModalProps> = (props) => {
     form.validateFields().then((values) => {
       saveStrategy({
         ...values,
-        strategyId: props.strategyDetail?.strategyId
+        strategyId: props.strategyDetail?.strategyId,
+        groupId: props.strategyDetail?.groupId
       })
     })
   }

@@ -70,14 +70,30 @@ export const Label: React.FC<LabelProps> = (props) => {
     }
   ]
 
-  const getMetricType = (metricType?: MetricType) => {
+  const getMetricType = (metricType?: string | number) => {
     if (!metricType) {
       return {
         color: 'gray',
         text: '未知'
       }
     }
-    return MetricTypeData[metricType]
+    // 如果是字符串，根据文本值映射
+    if (typeof metricType === 'string') {
+      const typeLower = metricType.toLowerCase()
+      if (typeLower === 'counter') {
+        return { color: 'green', text: 'Counter' }
+      } else if (typeLower === 'gauge') {
+        return { color: 'blue', text: 'Gauge' }
+      } else if (typeLower === 'histogram') {
+        return { color: 'purple', text: 'Histogram' }
+      } else if (typeLower === 'summary') {
+        return { color: 'orange', text: 'Summary' }
+      }
+      return { color: 'default', text: metricType }
+    }
+    // 如果是数字，从 MetricTypeData 获取
+    const typeData = MetricTypeData[metricType as MetricType]
+    return typeData || { color: 'default', text: String(metricType) }
   }
 
   return (
@@ -87,9 +103,10 @@ export const Label: React.FC<LabelProps> = (props) => {
           <Space>
             <Network className='h-6 w-6 text-blue-500' />
             {metricDetail?.name}
-            {metricDetail?.type && (
-              <Tag color={getMetricType(metricDetail.type).color}>{getMetricType(metricDetail.type).text}</Tag>
-            )}
+            {metricDetail?.type && (() => {
+              const typeInfo = getMetricType(metricDetail.type)
+              return typeInfo ? <Tag color={typeInfo.color}>{typeInfo.text}</Tag> : null
+            })()}
           </Space>
         }
         width='60%'

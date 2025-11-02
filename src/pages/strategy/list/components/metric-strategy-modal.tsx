@@ -66,7 +66,8 @@ export default function MetricStrategyModal(props: MetricStrategyModalProps) {
     form.validateFields().then((values) => {
       saveMetricStrategy({
         ...values,
-        strategyId: props.strategyDetail?.base.strategyId
+        strategyId: props.strategyDetail?.base.strategyId,
+        groupId: props.strategyDetail?.base.groupId
       })
     })
   }
