@@ -287,6 +287,10 @@ export default function AssociatedData() {
         onCancel={handleMetricStrategyModalCancel}
         onOk={handleMetricStrategyModalOk}
         strategyDetail={metricStrategy}
+        groupId={detail?.groupId}
+        name={detail?.name}
+        strategyType={detail?.strategyType}
+        strategyId={detail?.strategyId}
       />
       <MetricLevelModal
         width='60%'

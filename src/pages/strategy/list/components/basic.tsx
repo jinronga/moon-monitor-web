@@ -28,7 +28,7 @@ export const BasicModal: React.FC<BasicModalProps> = (props) => {
       saveStrategy({
         ...values,
         strategyId: props.strategyDetail?.strategyId,
-        groupId: props.strategyDetail?.groupId
+        groupId: values.groupId ?? props.strategyDetail?.groupId
       })
     })
   }

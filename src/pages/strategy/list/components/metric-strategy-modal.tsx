@@ -3,7 +3,7 @@ import { GlobalStatus } from '@/api/enum'
 import { defaultPaginationReq } from '@/api/global'
 import { baseURL } from '@/api/request'
 import { listTeamMetricDatasource } from '@/api/request/teamdatasource'
-import { saveTeamStrategy } from '@/api/request/teamstrategy'
+import { saveTeamMetricStrategy } from '@/api/request/teamstrategymetric'
 import { TeamStrategyMetricItem } from '@/api/request/types/index'
 import { AnnotationsEditor } from '@/components/data/child/annotation-editor'
 import PromQLInput from '@/components/data/child/prom-ql'
@@ -28,6 +28,10 @@ import { useEffect, useState } from 'react'
 
 export interface MetricStrategyModalProps extends ModalProps {
   strategyDetail?: TeamStrategyMetricItem
+  groupId?: number
+  name?: string
+  strategyType?: number
+  strategyId?: number
 }
 
 export default function MetricStrategyModal(props: MetricStrategyModalProps) {
@@ -49,7 +53,7 @@ export default function MetricStrategyModal(props: MetricStrategyModalProps) {
   }>({
     info: ''
   })
-  const { run: saveMetricStrategy, loading: saveMetricStrategyLoading } = useRequest(saveTeamStrategy, {
+  const { run: saveMetricStrategy, loading: saveMetricStrategyLoading } = useRequest(saveTeamMetricStrategy, {
     manual: true,
     onSuccess: () => {
       message.success('保存成功')
@@ -64,10 +68,13 @@ export default function MetricStrategyModal(props: MetricStrategyModalProps) {
   })
   const handleSubmit = () => {
     form.validateFields().then((values) => {
+      // SaveTeamMetricStrategyRequest 只需要: annotations, datasource, expr, labels, strategyId
       saveMetricStrategy({
-        ...values,
-        strategyId: props.strategyDetail?.base.strategyId,
-        groupId: props.strategyDetail?.base.groupId
+        annotations: values.annotations,
+        datasource: values.datasource,
+        expr: values.expr,
+        labels: values.labels,
+        strategyId: props.strategyId ?? props.strategyDetail?.base.strategyId
       })
     })
   }
