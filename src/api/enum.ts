@@ -234,19 +234,19 @@ export enum StorageType {
 /** 指标类型 */
 export enum MetricType {
   /** 未知指标类型 */
-  MetricTypeUnknown = 0,
+  MetricTypeUnknown,
 
   /** Counter */
-  MetricTypeCounter = 1,
+  MetricTypeCounter,
 
   /** Gauge */
-  MetricTypeGauge = 2,
+  MetricTypeGauge,
 
   /** Histogram */
-  MetricTypeHistogram = 3,
+  MetricTypeHistogram,
 
   /** Summary */
-  MetricTypeSummary = 4
+  MetricTypeSummary
 }
 
 /** 持续类型 */
@@ -498,28 +498,28 @@ export enum EventDataType {
 /** HTTP请求方式 */
 export enum HTTPMethod {
   /** 未知 */
-  HTTPMethodUnknown = 0,
+  HTTPMethodUnknown,
 
   /** GET */
-  HTTPMethodGET = 1,
+  HTTPMethodGET,
 
   /** POST */
-  HTTPMethodPOST = 2,
+  HTTPMethodPOST,
 
   /** PUT */
-  HTTPMethodPUT = 3,
+  HTTPMethodPUT,
 
   /** DELETE */
-  HTTPMethodDELETE = 4,
+  HTTPMethodDELETE,
 
   /** HEAD */
-  HTTPMethodHEAD = 5,
+  HTTPMethodHEAD,
 
   /** OPTIONS */
-  HTTPMethodOPTIONS = 6,
+  HTTPMethodOPTIONS,
 
   /** PATCH */
-  HTTPMethodPATCH = 7
+  HTTPMethodPATCH
 }
 
 /** 状态码判断条件 */

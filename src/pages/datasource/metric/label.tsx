@@ -72,28 +72,37 @@ export const Label: React.FC<LabelProps> = (props) => {
 
   const getMetricType = (metricType?: string | number) => {
     if (!metricType) {
-      return {
+      return MetricTypeData[MetricType.MetricTypeUnknown] || {
         color: 'gray',
         text: '未知'
       }
     }
-    // 如果是字符串，根据文本值映射
+
+    // 字符串到 MetricType 枚举的映射
+    const stringToMetricType: Record<string, MetricType> = {
+      counter: MetricType.MetricTypeCounter,
+      gauge: MetricType.MetricTypeGauge,
+      histogram: MetricType.MetricTypeHistogram,
+      summary: MetricType.MetricTypeSummary
+    }
+
+    let typeEnum: MetricType
+
+    // 如果是字符串，转换为枚举值
     if (typeof metricType === 'string') {
       const typeLower = metricType.toLowerCase()
-      if (typeLower === 'counter') {
-        return { color: 'green', text: 'Counter' }
-      } else if (typeLower === 'gauge') {
-        return { color: 'blue', text: 'Gauge' }
-      } else if (typeLower === 'histogram') {
-        return { color: 'purple', text: 'Histogram' }
-      } else if (typeLower === 'summary') {
-        return { color: 'orange', text: 'Summary' }
-      }
-      return { color: 'default', text: metricType }
+      typeEnum = stringToMetricType[typeLower] || MetricType.MetricTypeUnknown
+    } else {
+      // 如果是数字，直接使用
+      typeEnum = metricType as MetricType
     }
-    // 如果是数字，从 MetricTypeData 获取
-    const typeData = MetricTypeData[metricType as MetricType]
-    return typeData || { color: 'default', text: String(metricType) }
+
+    // 统一从 MetricTypeData 获取数据
+    const typeData = MetricTypeData[typeEnum]
+    return typeData || MetricTypeData[MetricType.MetricTypeUnknown] || {
+      color: 'default',
+      text: String(metricType)
+    }
   }
 
   return (
